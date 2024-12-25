@@ -8,7 +8,7 @@
         protected $idRole;
 
 
-        public function __construct($id, $name, $email){
+        public function __construct($id, $name, $email,$idRole){
             $this->idUser = $id;
             $this->name = $name; 
             $this->email = $email;
@@ -17,7 +17,7 @@
         public function login($email, $password){
             
         }
-        
+
 
     }
 ?>
