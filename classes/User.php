@@ -1,4 +1,5 @@
 <?php 
+    require_once("db.php");
 
     abstract class User {
         protected $idUser;
@@ -6,23 +7,23 @@
         protected $email;
         protected $password;
         protected $idRole;
-        protected $pdo;
 
-
-        public function __construct($id, $name, $email){
+        public function __construct($id, $name, $email, $idRole){
             $this->idUser = $id;
             $this->name = $name; 
             $this->email = $email;
             $this->idRole = $idRole ;
-            $this->pdo = $pdo;
+            
         }
-        public function login($email, $password) {
+        public static function login($email, $password) {
+            $pdo = DatabaseConnection::getInstance()->getConnection();
+
             $query = "SELECT u.id_user, u.name, u.password, r.id_role 
                       FROM users u 
                       INNER JOIN roles r ON u.role_id = r.id_role 
                       WHERE u.email = :email";
     
-            $stmt = $this->pdo->prepare($query);
+            $stmt = $pdo->prepare($query);
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->execute();
     
@@ -30,18 +31,15 @@
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
                 if (password_verify($password, $user['password'])) {
-                    $this->idUser = $user['id_user'];
-                    $this->name = $user['name'];
-                    $this->email = $email;
-                    $this->idRole = $user['id_role'];
     
                     session_start();
-                    $_SESSION['user_id'] = $this->idUser;
-                    $_SESSION['role_id'] = $this->idRole;
+                    $_SESSION['user_id'] = $user['id_user'];
+                    $_SESSION['role_id'] = $user['id_role'];
+                    $_SESSION['user_name'] = $user['name'];
                     if($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2){
                         header("Location: dashboard.php");
                     }else {
-                        header("Location: ")
+                        header("Location: clientAuth.PHP");
                     }
                 } else {
                     echo "alert invalide ";
