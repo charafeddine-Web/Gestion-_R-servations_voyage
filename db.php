@@ -7,7 +7,7 @@ class DatabaseConnection {
         try {
             $dsn = "mysql:host=localhost;dbname=agence_de_voyage_OOP;charset=utf8mb4";
             $username = "root";
-            $password = "Charaf2024";
+            $password = "";
 
             $this->connection = new PDO($dsn, $username, $password);
 
