@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 abstract class User {
     protected $idUser;
@@ -13,6 +14,29 @@ abstract class User {
         $this->email = $email;
         $this->idRole = $idRole;
         $this->pdo = $pdo;
+=======
+<?php 
+
+    abstract class User {
+        protected $idUser;
+        protected $name;
+        protected $email;
+        protected $password;
+        protected $idRole;
+
+
+        public function __construct($id, $name, $email,$idRole){
+            $this->idUser = $id;
+            $this->name = $name; 
+            $this->email = $email;
+            $this->idRole = $idRole ;
+        }
+        public function login($email, $password){
+            
+        }
+
+
+>>>>>>> 55aad224a77689acf228da4293aa75a614876775
     }
 
 
