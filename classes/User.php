@@ -9,7 +9,7 @@
         protected $pdo;
 
 
-        public function __construct($id, $name, $email,$idRole, $pdo){
+        public function __construct($id, $name, $email){
             $this->idUser = $id;
             $this->name = $name; 
             $this->email = $email;
