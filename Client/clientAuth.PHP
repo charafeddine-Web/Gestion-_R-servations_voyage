@@ -80,10 +80,7 @@
         <label for="email" class="block text-sm font-semibold text-gray-700">Email</label>
         <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg" placeholder="Votre email">
       </div>
-      <div class="mb-4">
-        <label for="phone" class="block text-sm font-semibold text-gray-700">Téléphone</label>
-        <input type="text" id="phone" name="phone" class="w-full px-4 py-2 border rounded-lg" placeholder="Votre téléphone">
-      </div>
+      
       <div class="flex justify-end space-x-4">
         <button type="button" id="closeModal" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500">
           Annuler

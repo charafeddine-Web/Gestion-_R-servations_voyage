@@ -71,21 +71,27 @@
 
 
 
-  <section id="home" class="relative bg-gradient-to-r from-blue-500 to-green-400 text-white">
-    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between py-20 px-6 lg:px-16">
+  
+<section id="home" class="relative bg-cover bg-center   text-white" style="background-image: url('./assets/bg1.webp'); background-size: cover; /* Adapte l'image à l'écran */
+  background-position: center; 
+  background-repeat: no-repeat;
+  height: 100vh; 
+  margin: 0;">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between py-40 px-6 lg:px-16 ">
       <div class="lg:max-w-lg">
         <h1 class="text-5xl font-extrabold leading-tight mb-4">
-          Partez pour une <span class="text-yellow-300">aventure inoubliable</span>
+          Partez pour une <span class="text-white">aventure inoubliable</span>
         </h1>
         <p class="text-lg mb-6">Découvrez des destinations de rêve avec VoyagePro. Explorez, réservez, partez !</p>
-        <a href="#offers" class="inline-block px-8 py-3 bg-yellow-400 text-blue-900 font-bold rounded-lg hover:bg-yellow-500">
+        <a href="#offers" class="inline-block px-8 py-3 bg-green-400 text-blue-900 font-bold rounded-lg hover:bg-green-500">
           Explorez les Offres
         </a>
       </div>
       <div class="mt-10 md:mt-0">
-        <img src="https://via.placeholder.com/600x400" alt="Voyage illustration" class="rounded-lg shadow-xl">
-      </div>
+        <!-- <img src="./assets/bb.jpeg" alt="Voyage illustration" class="rounded-lg shadow-xl"> -->
     </div>
+    </div>
+    
   </section>
 
   <section id="offers" class="bg-white py-16">
@@ -104,9 +110,7 @@
     </div>
   </section>
 <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
-  <!-- Login Modal -->
   <div id="loginModal" class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md hidden relative">
-    <!-- Close Button -->
     <button
       id="closeLoginModal"
       class="absolute top-4 right-4 text-gray-500 hover:text-red-500"

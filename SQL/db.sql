@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS roles (
     nomRole ENUM('superadmin', 'admin', 'client')
 );
 
+
 CREATE TABLE IF NOT EXISTS user (
     id_client INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(100),
@@ -34,6 +35,4 @@ CREATE TABLE IF NOT EXISTS activites (
     start_date DATE,
     end_date DATE,
     nbr_places INT NOT NULL,
-    id_reservation INT,
-    FOREIGN KEY (id_reservation) REFERENCES reservations(id_reservation)
 );
