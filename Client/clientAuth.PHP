@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,9 +63,12 @@
       <button id="profileButtonMobile" class="w-full px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
         Mon Profil
       </button>
-      <button id="logoutButtonMobile" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-        Déconnexion
-      </button>
+      <form action="../logout.php" method="POST">
+            <button id="logoutButtonMobile" type="submit" name="submit" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+              Déconnexion
+            </button>
+      </form>
+      
     </div>
   </div>
 </header>

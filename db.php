@@ -3,19 +3,21 @@ class DatabaseConnection {
     private static $instance = null;
     private $connection;
 
-    private function construct() {
+    private function __construct() {
         try {
-            $dsn = "mysql:host=localhost;dbname=agence_de_voyage_OOP;charset=utf8mb4";
+            $dsn = "mysql:host=localhost;dbname=agence_de_voyage_oop";
             $username = "root";
             $password = "";
-
+    
             $this->connection = new PDO($dsn, $username, $password);
 
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "Database connected successfully!";
         } catch (PDOException $e) {
             die("Database connection failed: " . $e->getMessage());
         }
     }
+    
 
     public static function getInstance() {
         if (self::$instance == null) {
