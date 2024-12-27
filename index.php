@@ -107,8 +107,8 @@
                     <div class="bg-gray-50 rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden">
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-blue-600">' . htmlspecialchars($offer['name']) . '</h3>
-                            <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['description']) . '€</span></p>
-                             <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['destination']) . '€</span></p>
+                            <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['description']) . '</span></p>
+                             <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['destination']) . '</span></p>
                             <p class="text-gray-600 mb-4">À partir de <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['price']) . '€</span></p>
                             <a href="#auth" class="text-blue-500 hover:underline">Réservez Maintenant</a>
                         </div>
