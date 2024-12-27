@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if(!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3) ){
-    header("Location: login.php");
+    header("Location: ../index.php");
 }
 
 ?>
@@ -25,7 +25,7 @@ if(!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['ro
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Chef Admin</a>
+            <a class="navbar-brand" href="#">Admin</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
