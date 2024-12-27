@@ -1,6 +1,8 @@
 <?php 
 require_once __DIR__ . '/../db.php';
 
+   
+
     abstract class User {
         protected $idUser;
         protected $name;
@@ -8,11 +10,13 @@ require_once __DIR__ . '/../db.php';
         protected $password;
         protected $idRole;
 
+
         public function __construct($name, $email, $idRole){
             $this->name = $name; 
             $this->email = $email;
             $this->idRole = $idRole ;
             
+
         }
 
     public function setName($name) {
@@ -22,9 +26,7 @@ require_once __DIR__ . '/../db.php';
     public function getName() {
         return $this->name;
     }
-    // public function getRole() {
-    //     return $this->idRole;
-    // }
+
     public function setEmail($email) {
         $this->email = $email;
     }
@@ -58,9 +60,8 @@ require_once __DIR__ . '/../db.php';
 
         if ($stmt->rowCount() === 1) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        print_r($user);
 
-            if (password_verify($password,$user['password'],)) {
+            if (password_verify($password,$user['password'])) {
 
                 session_start();
                 $_SESSION['user_id'] = $user['id_client'];
@@ -71,6 +72,37 @@ require_once __DIR__ . '/../db.php';
                 }
                 else {
                     header("Location: ./Client/clientAuth.php");
+
+        }
+        public static function login($email, $password) {
+            $pdo = DatabaseConnection::getInstance()->getConnection();
+
+            $query = "SELECT u.id_user, u.name, u.password, r.id_role 
+                      FROM users u 
+                      INNER JOIN roles r ON u.role_id = r.id_role 
+                      WHERE u.email = :email";
+    
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+    
+            if ($stmt->rowCount() === 1) {
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+                if (password_verify($password, $user['password'])) {
+    
+                    session_start();
+                    $_SESSION['user_id'] = $user['id_user'];
+                    $_SESSION['role_id'] = $user['id_role'];
+                    $_SESSION['user_name'] = $user['name'];
+                    if($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2){
+                        header("Location: dashboard.php");
+                    }else {
+                        header("Location: clientAuth.PHP");
+                    }
+                } else {
+                    echo "alert invalide ";
+
                 }
             } else {
                 echo "Mot de passe incorrect. ";
