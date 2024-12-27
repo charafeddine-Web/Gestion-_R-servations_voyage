@@ -1,5 +1,6 @@
 <?php
 
+
 require_once("./classes/User.php");
 require_once __DIR__ .'/db.php';
 
@@ -13,4 +14,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
         echo "Veuillez remplir tous les champs.";
     }
 }
+
 

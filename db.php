@@ -32,7 +32,4 @@ class DatabaseConnection {
     private function clone() {}
 }
 
-$db1 = DatabaseConnection::getInstance();
-$conn1 = $db1->getConnection();
-
-// echo $conn1;
+?>

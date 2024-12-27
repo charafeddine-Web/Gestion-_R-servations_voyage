@@ -1,6 +1,7 @@
 <?php 
 require_once("User.php");
-require_once __DIR__ . '/../db.php';
+require_once __DIR__.'/../db.php';
+
 
 class Client extends User {
       public function __construct($name, $email, $password) {
