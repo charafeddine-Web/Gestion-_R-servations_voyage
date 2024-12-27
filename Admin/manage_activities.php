@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = DatabaseConnection::getInstance()->getConnection();
 
     if (isset($_POST['add_activity'])) {
-        $name = $_POST['menu_name'];
+        $name = $_POST['activite_name'];
         $description = $_POST['activite_description'];
         $destination = $_POST['activite_destination'];
         $price = $_POST['activite_price'];

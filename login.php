@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
     if (isset($_POST['email'], $_POST['password'])) {
         $email = trim($_POST['email']);
         $password = $_POST['password'];
-        $user = User::login($email, $password);
+        User::login($email, $password);
        
     } else {
         echo "Veuillez remplir tous les champs.";

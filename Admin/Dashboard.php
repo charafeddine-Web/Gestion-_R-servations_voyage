@@ -1,9 +1,11 @@
 <?php 
 session_start();
-if(!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3) ){
+if (!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3)) {
     header("Location: ../index.php");
+    exit;
 }
 
+$isSuperAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +35,7 @@ if(!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['ro
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                        <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#reservations">Reservations</a>
@@ -269,10 +271,37 @@ if(!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['ro
         </div>
     </div>
 
+    <?php if ($isSuperAdmin): ?>
+    <div class="card mb-4" id="manageAdmins">
+        <div class="card-header">
+            <i class="fas fa-user-shield"></i> Gérer les administrateurs
+        </div>
+        <div class="card-body">
+            <!-- Formulaire pour ajouter un nouvel administrateur -->
+            <form method="POST" action="manage_admins.php">
+                <div class="mb-3">
+                    <label for="admin_name" class="form-label">Nom de l'administrateur</label>
+                    <input type="text" class="form-control" id="admin_name" name="admin_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="admin_email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="admin_email" name="admin_email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="admin_password" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="admin_password" name="admin_password" required>
+                </div>
+                <button type="submit" name="add_admin" class="btn btn-primary">Ajouter un administrateur</button>
+            </form>
+        </div>
+    </div>
+    <?php endif; ?>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     document.querySelectorAll('.editActivityBtn').forEach(button => {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', function() {
             document.getElementById('edit_activity_id').value = this.dataset.id;
             document.getElementById('edit_activity_name').value = this.dataset.name;
             document.getElementById('edit_activity_description').value = this.dataset.description;
@@ -285,7 +314,7 @@ if(!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['ro
             editModal.show();
         });
     });
-</script>
+    </script>
 
 </body>
 

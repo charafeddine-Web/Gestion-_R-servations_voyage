@@ -36,7 +36,7 @@
             $stmt->bindParam(':id_res', $id_res);
             return $stmt->execute();
         }
-        public function showRes($id_client) {
+        public function showRes() {
             $sql = "SELECT r.id_reservation , u.name as name_client, a.name as name_activite, r.date_reservation, r.nbr_places, r.status  
             FROM reservations as r inner join users as u on r.id_client=u.id_client 
             inner join activites as a on r.id_activite = a.id_activite ";
