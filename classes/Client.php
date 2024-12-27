@@ -3,9 +3,10 @@ require_once("User.php");
 require_once __DIR__ . '/../db.php';
 
 class Client extends User {
-    public function __construct($name = null, $email = null) {
-        parent::__construct($name, $email, 3); 
+      public function __construct($name, $email, $password) {
+        parent::__construct( null,$name, $email, $password, 3);  
     }
+
     public function register() {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
@@ -13,9 +14,7 @@ class Client extends User {
                 echo "Error: Could not establish database connection.";
                 return false;
             }
-            // if (!isset($this->idRole)) {
-            //     $this->idRole = 3; 
-            // }
+            
             $sql = "INSERT INTO users (name, email, password, idRole) VALUES (:name, :email, :password, :idRole)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':name', $this->name);
@@ -23,7 +22,11 @@ class Client extends User {
             $stmt->bindParam(':password', $this->password);
             $stmt->bindParam(':idRole', $this->idRole, PDO::PARAM_INT);
 
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                $this->idUser = $pdo->lastInsertId();
+                return true;
+            }
+            return false;        
         } catch (PDOException $e) {
             echo "Registration Error: " . $e->getMessage();
             return false;
@@ -40,42 +43,43 @@ class Client extends User {
             $stmt->bindParam(':id_activity', $id_activity, PDO::PARAM_INT);
             $stmt->bindParam(':date_reservation', $date_reservation);
             $stmt->bindParam(':status', $status);
-
+    
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Add Reservation Error: " . $e->getMessage();
             return false;
         }
     }
-
+    
     public function cancelReservation($id_res) {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
             $sql = "DELETE FROM reservations WHERE id_reservation = :id_res AND id_client = :id_client";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_res', $id_res, PDO::PARAM_INT);
-            $stmt->bindParam(':id_client', $this->id, PDO::PARAM_INT); 
-
+            $stmt->bindParam(':id_client', $this->idUser, PDO::PARAM_INT);  
+    
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Cancel Reservation Error: " . $e->getMessage();
             return false;
         }
     }
-
+    
     public function viewOffers() {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
-            $sql = "SELECT * FROM offers"; 
+            $sql = "SELECT * FROM activites"; 
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
-
+    
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "View Offers Error: " . $e->getMessage();
-            return [];
+            return [];  
         }
     }
+    
 }
 
 //pour test

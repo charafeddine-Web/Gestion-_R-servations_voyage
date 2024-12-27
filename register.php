@@ -5,34 +5,27 @@ require("./classes/Client.php");
 
 require_once __DIR__ . '/db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['submit']) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-    $user = new Client($name, $email);
+    $user = new Client($name, $email, $password);
 
     if ($user->register()) {
         session_start();
-        $_SESSION['user_id'] = $user['id_user'];
-        $_SESSION['role_id'] = $user['id_role'];
-        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_id'] = $user->getIdUser();  
+        $_SESSION['role_id'] = $user->getIdRole();  
+        $_SESSION['user_name'] = $user->getName(); 
 
-        if ($user['id_role'] == 1) {
+        if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {
             header("Location: ./Admin/Dashboard.php");
             exit();
-        } 
-        elseif ($user['id_role'] == 3) {
+        } else {
             header("Location: ./Client/clientAuth.php");
             exit();
-        } else {
-            header("Location: clientAuth.php");
-            exit();
         }
-        
-    }      
-   else {
+    } else {
         echo "Échec de l'enregistrement du client.";
     }
- }
-?>
+}

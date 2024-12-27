@@ -1,7 +1,5 @@
 <?php 
-require_once __DIR__ . '/../db.php';
-
-   
+require_once __DIR__ . '/../db.php';   
 
     abstract class User {
         protected $idUser;
@@ -11,14 +9,23 @@ require_once __DIR__ . '/../db.php';
         protected $idRole;
 
 
-        public function __construct($name, $email, $idRole){
+        public function __construct($idUser,$name, $email, $password,$idRole){
             $this->name = $name; 
             $this->email = $email;
+            $this->password = $password;
             $this->idRole = $idRole ;
+            $this->idUser = $idUser ;
             
-
         }
-
+       
+    
+        public function getIdUser() {
+            return $this->idUser;
+        }
+        public function getIdRole() {
+            return $this->idRole;
+        }
+    
     public function setName($name) {
         $this->name = $name;
     }
@@ -42,6 +49,7 @@ require_once __DIR__ . '/../db.php';
     public function getPassword() {
         return $this->password;
     }
+
     public static function login($email, $password) {
         $pdo = DatabaseConnection::getInstance()->getConnection();
         if (!$pdo) {
@@ -68,63 +76,25 @@ require_once __DIR__ . '/../db.php';
                 $_SESSION['role_id'] = $user['idRole'];
                 $_SESSION['user_name'] = $user['name'];
                 if($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2){
-                    header("Location: ../Admin/Dashboard.php");
+                    header("Location: ./Admin/Dashboard.php");
                 }
                 else {
                     header("Location: ./Client/clientAuth.php");
 
-        }
-        public static function login($email, $password) {
-            $pdo = DatabaseConnection::getInstance()->getConnection();
-
-            $query = "SELECT u.id_user, u.name, u.password, r.id_role 
-                      FROM users u 
-                      INNER JOIN roles r ON u.role_id = r.id_role 
-                      WHERE u.email = :email";
-    
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-            $stmt->execute();
-    
-            if ($stmt->rowCount() === 1) {
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-                if (password_verify($password, $user['password'])) {
-    
-                    session_start();
-                    $_SESSION['user_id'] = $user['id_user'];
-                    $_SESSION['role_id'] = $user['id_role'];
-                    $_SESSION['user_name'] = $user['name'];
-                    if($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2){
-                        header("Location: dashboard.php");
-                    }else {
-                        header("Location: clientAuth.PHP");
-                    }
-                } else {
-                    echo "alert invalide ";
-
-                }
-            } else {
-                echo "Mot de passe incorrect. ";
             }
-        } else {
-            echo "Email non trouvé dans la base de données.";
-            return null;
+        }
         }
     }
-        public static function logout(){
-            session_start();
-
-            if(isset($_SESSION['user_id'])){
-                session_unset();
-                session_destroy();
-                header("Location: ../index.php");  
-                exit;  
-            } 
-            // else {
-            //     header("Location: ../index.php");
-            //     exit;
-            // }
+    
+    public static function logout() {
+        session_start();
+    
+        if (isset($_SESSION['user_id'])) {
+            session_unset();
+            session_destroy();
+            header("Location: ./index.php");  
+            exit();
         }
     }
-    ?>
+    
+    }

@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS reservations (
     id_client INT,
     id_activite INT,
     date_reservation TIMESTAMP,
+    nbr_places int not null,
     status ENUM('En_attente', 'Confirmée', 'Annulée'),
     FOREIGN KEY (id_client) REFERENCES user(id_client) ON DELETE CASCADE,
     FOREIGN KEY (id_activite) REFERENCES activites(id_activite) ON DELETE CASCADE
@@ -34,5 +35,4 @@ CREATE TABLE IF NOT EXISTS activites (
     price DECIMAL(10, 2) NOT NULL,
     start_date DATE,
     end_date DATE,
-    nbr_places INT NOT NULL,
 );
