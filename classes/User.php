@@ -53,7 +53,11 @@ require_once __DIR__ . '/../db.php';
     public static function login($email, $password) {
         $pdo = DatabaseConnection::getInstance()->getConnection();
         if (!$pdo) {
+<<<<<<< HEAD
             echo "<script>Swal.fire('Erreur!', 'Erreur de connexion à la base de données.', 'error');</script>";
+=======
+            echo "Erreur de connexion à la base de données.";
+>>>>>>> main
             return null;
         }
         
@@ -74,6 +78,7 @@ require_once __DIR__ . '/../db.php';
                 $_SESSION['user_id'] = $user['id_client'];
                 $_SESSION['role_id'] = $user['idRole'];
                 $_SESSION['user_name'] = $user['name'];
+<<<<<<< HEAD
                 if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {
                     header("Location: ./Admin/Dashboard.php");
                     exit();
@@ -100,6 +105,21 @@ require_once __DIR__ . '/../db.php';
             <script>
                     Swal.fire('Erreur!', 'Utilisateur introuvable avec cet email.', 'error');
                   </script>";
+=======
+    
+                if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {
+                    header("Location: ./Admin/Dashboard.php");
+                } else {
+                    header("Location: ./Client/clientAuth.php");
+                }
+            } else {
+                echo "<script>alert('Mot de passe incorrect. Veuillez réessayer.');</script>";
+                header("Refresh: 0; URL=login.php");
+            }
+        } else {
+            echo "<script>alert('Adresse e-mail introuvable. Veuillez vérifier vos informations.');</script>";
+            header("Refresh: 0; URL=login.php");
+>>>>>>> main
         }
     }
     

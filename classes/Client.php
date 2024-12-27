@@ -4,8 +4,13 @@ require_once __DIR__.'/../db.php';
 
 
 class Client extends User {
+<<<<<<< HEAD
     public function __construct($name, $email, $password) {
         parent::__construct(null, $name, $email, $password, 3);
+=======
+      public function __construct($idUser,$name, $email, $password) {
+        parent::__construct( $idUser,$name, $email, $password, 3);  
+>>>>>>> main
     }
 
     public function register() {
