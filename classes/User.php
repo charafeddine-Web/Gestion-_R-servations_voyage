@@ -53,7 +53,7 @@ require_once __DIR__ . '/../db.php';
     public static function login($email, $password) {
         $pdo = DatabaseConnection::getInstance()->getConnection();
         if (!$pdo) {
-            echo "Erreur de connexion.";
+            echo "Erreur de connexion à la base de données.";
             return null;
         }
         
@@ -61,30 +61,35 @@ require_once __DIR__ . '/../db.php';
                   FROM users u 
                   INNER JOIN roles r ON u.idRole = r.idRole 
                   WHERE u.email = :email";
-
+    
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-
+    
         if ($stmt->rowCount() === 1) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (password_verify($password,$user['password'])) {
-
+    
+            if (password_verify($password, $user['password'])) {
                 session_start();
                 $_SESSION['user_id'] = $user['id_client'];
                 $_SESSION['role_id'] = $user['idRole'];
                 $_SESSION['user_name'] = $user['name'];
-                if($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2){
+    
+                if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {
                     header("Location: ./Admin/Dashboard.php");
-                }
-                else {
+                } else {
                     header("Location: ./Client/clientAuth.php");
-
+                }
+            } else {
+                echo "<script>alert('Mot de passe incorrect. Veuillez réessayer.');</script>";
+                header("Refresh: 0; URL=login.php");
             }
-        }
+        } else {
+            echo "<script>alert('Adresse e-mail introuvable. Veuillez vérifier vos informations.');</script>";
+            header("Refresh: 0; URL=login.php");
         }
     }
+    
     
     public static function logout() {
         session_start();
