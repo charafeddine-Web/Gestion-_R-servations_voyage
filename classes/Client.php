@@ -4,8 +4,8 @@ require_once __DIR__.'/../db.php';
 
 
 class Client extends User {
-      public function __construct($name, $email, $password) {
-        parent::__construct( null,$name, $email, $password, 3);  
+      public function __construct($idUser,$name, $email=null, $password=null) {
+        parent::__construct( $idUser,$name, $email, $password, 3);  
     }
 
     public function register() {
@@ -58,14 +58,21 @@ class Client extends User {
             $sql = "DELETE FROM reservations WHERE id_reservation = :id_res AND id_client = :id_client";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_res', $id_res, PDO::PARAM_INT);
-            $stmt->bindParam(':id_client', $this->idUser, PDO::PARAM_INT);  
-    
-            return $stmt->execute();
+            $stmt->bindParam(':id_client', $this->idUser, PDO::PARAM_INT);
+            
+            if ($stmt->execute()) {
+                header(header: "location: ../Client/clientAuth.php");
+                return true;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             echo "Cancel Reservation Error: " . $e->getMessage();
             return false;
         }
     }
+    
+    
     
     public function viewOffers() {
         try {
