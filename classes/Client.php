@@ -1,6 +1,6 @@
 <?php 
 require_once("User.php");
-require('../db.php');
+require_once __DIR__.'/../db.php';
 
 class Client extends User {
 

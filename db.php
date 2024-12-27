@@ -3,9 +3,9 @@ class DatabaseConnection {
     private static $instance = null;
     private $connection;
 
-    private function construct() {
+    private function __construct() {
         try {
-            $dsn = "mysql:host=localhost;dbname=agence_de_voyage_OOP;charset=utf8mb4";
+            $dsn = "mysql:host=localhost;dbname=agence_de_voyage_oop";
             $username = "root";
             $password = "";
 
@@ -31,7 +31,4 @@ class DatabaseConnection {
     private function clone() {}
 }
 
-$db1 = DatabaseConnection::getInstance();
-$conn1 = $db1->getConnection();
-
-// echo $conn1;
+?>
