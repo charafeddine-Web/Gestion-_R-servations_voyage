@@ -2,30 +2,45 @@
 
 require("./classes/User.php");
 require("./classes/Client.php");
-
 require_once __DIR__ . '/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    if (isset($_POST['name'], $_POST['email'], $_POST['password'])) {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    $user = new Client($name, $email, $password);
+        if (empty($name) || empty($email) || empty($password)) {
+            echo "Error: Missing required fields: name, email, or password.";
+            return;
+        }
 
-    if ($user->register()) {
-        session_start();
-        $_SESSION['user_id'] = $user->getIdUser();  
-        $_SESSION['role_id'] = $user->getIdRole();  
-        $_SESSION['user_name'] = $user->getName(); 
+        $hashpassword = password_hash($password, PASSWORD_BCRYPT);
 
-        if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {
-            header("Location: ./Admin/Dashboard.php");
-            exit();
+        if (!$hashpassword) {
+            echo "Password hashing failed.";
+            return;
+        }
+
+        $client = new Client($name, $email, $hashpassword);
+
+        if ($client->register()) {
+            session_start();
+            $_SESSION['user_id'] = $client->getIdUser();  
+            $_SESSION['role_id'] = $client->getIdRole();  
+            $_SESSION['user_name'] = $client->getName(); 
+
+            if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {
+                header("Location: ./Admin/Dashboard.php");
+                exit();
+            } else {
+                header("Location: ./Client/clientAuth.php");
+            }
         } else {
-            header("Location: ./Client/clientAuth.php");
-            exit();
+            echo "Échec de l'enregistrement du client.";
         }
     } else {
-        echo "Échec de l'enregistrement du client.";
+        echo "Error: Missing required fields.";
     }
 }
+

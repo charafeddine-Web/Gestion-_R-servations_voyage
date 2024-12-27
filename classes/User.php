@@ -10,11 +10,11 @@ require_once __DIR__ . '/../db.php';
 
 
         public function __construct($idUser,$name, $email, $password,$idRole){
+            $this->idUser = $idUser ;
             $this->name = $name; 
             $this->email = $email;
             $this->password = $password;
             $this->idRole = $idRole ;
-            $this->idUser = $idUser ;
             
         }
        
@@ -53,7 +53,7 @@ require_once __DIR__ . '/../db.php';
     public static function login($email, $password) {
         $pdo = DatabaseConnection::getInstance()->getConnection();
         if (!$pdo) {
-            echo "Erreur de connexion.";
+            echo "<script>Swal.fire('Erreur!', 'Erreur de connexion à la base de données.', 'error');</script>";
             return null;
         }
         
@@ -61,30 +61,48 @@ require_once __DIR__ . '/../db.php';
                   FROM users u 
                   INNER JOIN roles r ON u.idRole = r.idRole 
                   WHERE u.email = :email";
-
+    
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-
+    
         if ($stmt->rowCount() === 1) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (password_verify($password,$user['password'])) {
-
+    
+            if (password_verify($password, $user['password'])) {
                 session_start();
                 $_SESSION['user_id'] = $user['id_client'];
                 $_SESSION['role_id'] = $user['idRole'];
                 $_SESSION['user_name'] = $user['name'];
-                if($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2){
+                if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {
                     header("Location: ./Admin/Dashboard.php");
-                }
-                else {
+                    exit();
+                } elseif ($_SESSION['role_id'] == 3) {
                     header("Location: ./Client/clientAuth.php");
-
+                    exit();
+                } else {
+                    header("Location: ./index.php");
+                    exit();
+                }
+            } else {
+                echo "  <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+                echo "
+                 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <script>
+                        Swal.fire('Erreur!', 'Mot de passe incorrect.', 'error');
+                      </script>";
             }
-        }
+        } else {
+            echo "  <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+
+            echo "
+             <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+                    Swal.fire('Erreur!', 'Utilisateur introuvable avec cet email.', 'error');
+                  </script>";
         }
     }
+    
     
     public static function logout() {
         session_start();
