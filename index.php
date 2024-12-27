@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +10,6 @@
   <title>VoyagePro - Popup Login/Register</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Custom scrollbars for better UX */
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -22,25 +24,20 @@
 </head>
 
 <body class="bg-gradient-to-b from-blue-50 via-white to-gray-100 font-sans">
-      <!-- Navbar -->
       <header class="bg-white shadow-md sticky top-0 z-50">
   <nav class="container mx-auto flex justify-between items-center py-4 px-6">
-    <!-- Logo -->
     <div class="text-2xl font-extrabold text-blue-600">🌍 VoyagePro</div>
-    <!-- Hamburger Menu (Mobile) -->
     <button id="menuToggle" class="md:hidden text-gray-700 focus:outline-none">
       <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
       </svg>
     </button>
-    <!-- Links (Desktop) -->
     <ul id="navLinks" class="hidden md:flex space-x-6 text-gray-700">
       <li><a href="#home" class="hover:text-blue-500">Accueil</a></li>
       <li><a href="#offers" class="hover:text-blue-500">Offres</a></li>
       <li><a href="#about" class="hover:text-blue-500">À propos</a></li>
       <li><a href="#notre-public-cible" class="hover:text-blue-500">Notre Public</a></li>
     </ul>
-    <!-- Action Buttons -->
     <div class="hidden md:flex space-x-4">
       <button id="openLogin" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
         Connexion
@@ -50,7 +47,6 @@
       </button>
     </div>
   </nav>
-  <!-- Dropdown Menu (Mobile) -->
   <div id="mobileMenu" class="hidden bg-white shadow-md">
     <ul class="flex flex-col space-y-2 py-4 px-6 text-gray-700">
       <li><a href="#home" class="hover:text-blue-500">Accueil</a></li>
@@ -118,11 +114,12 @@
       ✕
     </button>
     <h2 class="text-3xl font-extrabold text-blue-600 mb-6 text-center">Connexion</h2>
-    <form>
+    <form Action="login.php" method="POST">
       <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Adresse Email</label>
         <input
           type="email"
+          name="email"
           placeholder="Entrez votre email"
           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
@@ -131,12 +128,14 @@
         <label class="block text-gray-700 font-medium mb-2">Mot de Passe</label>
         <input
           type="password"
+          name="password"
           placeholder="Entrez votre mot de passe"
           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
       <button
         type="submit"
+        name="submit"
         class="w-full bg-blue-600 text-white font-bold px-4 py-3 rounded-lg hover:bg-blue-700 transition duration-200"
       >
         Se Connecter
@@ -160,11 +159,12 @@
       ✕
     </button>
     <h2 class="text-3xl font-extrabold text-green-600 mb-6 text-center">Inscription</h2>
-    <form>
+    <form Action="register.php" method="POST">
       <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Nom Complet</label>
         <input
           type="text"
+          name="name"
           placeholder="Entrez votre nom complet"
           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400"
         />
@@ -173,6 +173,7 @@
         <label class="block text-gray-700 font-medium mb-2">Adresse Email</label>
         <input
           type="email"
+          name="email"
           placeholder="Entrez votre email"
           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400"
         />
@@ -181,12 +182,14 @@
         <label class="block text-gray-700 font-medium mb-2">Mot de Passe</label>
         <input
           type="password"
+          name="password"
           placeholder="Entrez votre mot de passe"
           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400"
         />
       </div>
       <button
         type="submit"
+        name="submit"
         class="w-full bg-green-600 text-white font-bold px-4 py-3 rounded-lg hover:bg-green-700 transition duration-200"
       >
         S'inscrire
