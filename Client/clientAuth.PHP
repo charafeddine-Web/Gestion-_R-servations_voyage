@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,12 +45,13 @@
       <button id="profileButton" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
         Mon Profil
       </button>
-      <button id="logoutButton" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-        Déconnexion
-      </button>
+      <form action="../logout.php" method="POST">
+            <button id="logoutButtonMobile" type="submit" name="submit" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+              Déconnexion
+            </button>
+      </form>
     </div>
   </nav>
-  <!-- Dropdown Menu (Mobile) -->
   <div id="mobileMenu" class="hidden bg-white shadow-md">
     <ul class="flex flex-col space-y-2 py-4 px-6 text-gray-700">
       <li><a href="#home" class="hover:text-blue-500">Accueil</a></li>
@@ -61,9 +64,11 @@
       <button id="profileButtonMobile" class="w-full px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
         Mon Profil
       </button>
-      <button id="logoutButtonMobile" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-        Déconnexion
-      </button>
+      <form action="../logout.php" method="POST">
+            <button id="logoutButtonMobile" type="submit" name="submit" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+              Déconnexion
+            </button>
+      </form>
     </div>
   </div>
 </header>

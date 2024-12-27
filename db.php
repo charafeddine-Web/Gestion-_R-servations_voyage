@@ -8,7 +8,7 @@ class DatabaseConnection {
             $dsn = "mysql:host=localhost;dbname=agence_de_voyage_oop";
             $username = "root";
             $password = "";
-
+    
             $this->connection = new PDO($dsn, $username, $password);
 
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -16,6 +16,7 @@ class DatabaseConnection {
             die("Database connection failed: " . $e->getMessage());
         }
     }
+    
 
     public static function getInstance() {
         if (self::$instance == null) {

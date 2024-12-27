@@ -1,19 +1,18 @@
 <?php
-require_once("./classes/Client.php");
-require_once("db.php");
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
 
-    if (!empty($email) && !empty($password)) {
-        try {
-            Client::login($email, $password);
-        } catch (Exception $e) {
-            echo "<script>alert('Erreur : " . htmlspecialchars($e->getMessage()) . "');</script>";
-        }
+require_once("./classes/User.php");
+require_once __DIR__ .'/db.php';
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+    if (isset($_POST['email'], $_POST['password'])) {
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+        $user = User::login($email, $password);
+       
     } else {
-        echo "<script>alert('Veuillez remplir tous les champs.');</script>";
+        echo "Veuillez remplir tous les champs.";
     }
 }
-?>
+
+
