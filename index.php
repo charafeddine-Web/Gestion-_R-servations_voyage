@@ -92,19 +92,38 @@
 
   <section id="offers" class="bg-white py-16">
     <div class="container mx-auto px-6 lg:px-16">
-      <h2 class="text-3xl font-bold text-center text-blue-600 mb-8">Nos Offres Populaires</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-gray-50 rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden">
-          <img src="https://via.placeholder.com/300x200" alt="Offer" class="w-full">
-          <div class="p-6">
-            <h3 class="text-lg font-bold text-blue-600">Vol Paris - Tokyo</h3>
-            <p class="text-gray-600 mb-4">À partir de <span class="text-yellow-500 font-bold">499€</span></p>
-            <a href="#auth" class="text-blue-500 hover:underline">Réservez Maintenant</a>
-          </div>
+        <h2 class="text-3xl font-bold text-center text-blue-600 mb-8">Nos top Offres Populaires</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <?php
+            require_once './classes/Client.php';
+
+            $client = new Client("", "", "");
+            $offers = $client->viewOffers();
+
+            if (!empty($offers)) {
+                foreach ($offers as $offer) {
+                    echo '
+                    <div class="bg-gray-50 rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-blue-600">' . htmlspecialchars($offer['name']) . '</h3>
+                            <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['description']) . '€</span></p>
+                             <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['destination']) . '€</span></p>
+                            <p class="text-gray-600 mb-4">À partir de <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['price']) . '€</span></p>
+                            <a href="#auth" class="text-blue-500 hover:underline">Réservez Maintenant</a>
+                        </div>
+                    </div>
+                    ';
+                }
+            } else {
+                echo '<p class="text-center text-gray-600">Aucune offre disponible pour le moment.</p>';
+            }
+            ?>
+
         </div>
-      </div>
     </div>
-  </section>
+</section>
+
 <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
   <div id="loginModal" class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md hidden relative">
     <button
