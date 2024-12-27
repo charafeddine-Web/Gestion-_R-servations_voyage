@@ -4,8 +4,13 @@ require_once __DIR__.'/../db.php';
 
 
 class Client extends User {
+<<<<<<< HEAD
+    public function __construct($name, $email, $password) {
+        parent::__construct(null, $name, $email, $password, 3);
+=======
       public function __construct($idUser,$name, $email, $password) {
         parent::__construct( $idUser,$name, $email, $password, 3);  
+>>>>>>> main
     }
 
     public function register() {
@@ -15,42 +20,67 @@ class Client extends User {
                 echo "Error: Could not establish database connection.";
                 return false;
             }
-            
+
             $sql = "INSERT INTO users (name, email, password, idRole) VALUES (:name, :email, :password, :idRole)";
             $stmt = $pdo->prepare($sql);
+
+            // Debug values
+            if (!$this->name || !$this->email || !$this->password) {
+                throw new Exception("Missing required fields: name, email, or password.");
+            }
+
             $stmt->bindParam(':name', $this->name);
             $stmt->bindParam(':email', $this->email);
             $stmt->bindParam(':password', $this->password);
             $stmt->bindParam(':idRole', $this->idRole, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
-                $this->idUser = $pdo->lastInsertId();
+                $this->idUser = $pdo->lastInsertId(); 
                 return true;
             }
-            return false;        
+
+            $errorInfo = $stmt->errorInfo();
+            throw new Exception("SQL Execution Failed: " . $errorInfo[2]);
+
         } catch (PDOException $e) {
             echo "Registration Error: " . $e->getMessage();
+            return false;
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
             return false;
         }
     }
 
-    public function addReservation($id_activity, $date_reservation, $status) {
+    public function addReservation($id_activity, $date_reservation, $status,$nbr_places) {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
-            $sql = "INSERT INTO reservations (id_client, id_activite, date_reservation, status) 
-                    VALUES (:id_client, :id_activity, :date_reservation, :status)";
+            if (!$pdo) {
+                echo 'Database connection failed.';
+                return false;
+            }
+    
+            $sql = "INSERT INTO reservations (id_client, id_activite, date_reservation, status,nbr_places) 
+                    VALUES (:id_client, :id_activity, :date_reservation, :status,:nbr_places)";
             $stmt = $pdo->prepare($sql);
+    
             $stmt->bindParam(':id_client', $this->idUser, PDO::PARAM_INT); 
             $stmt->bindParam(':id_activity', $id_activity, PDO::PARAM_INT);
             $stmt->bindParam(':date_reservation', $date_reservation);
+            $stmt->bindParam(':nbr_places', $nbr_places);
             $stmt->bindParam(':status', $status);
     
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                echo 'Failed to execute query.';
+                return false;
+            }
         } catch (PDOException $e) {
             echo "Add Reservation Error: " . $e->getMessage();
             return false;
         }
     }
+    
     
     public function cancelReservation($id_res) {
         try {

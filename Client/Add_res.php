@@ -9,6 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_reservation'])) {
         $date_reservation = $_POST['date_reservation'];  
         $status = 'En_attente';  
 
+<<<<<<< HEAD
+        $client = new Client($_SESSION['user_id'], null, null);
+        if($client->addReservation($id_activite, $date_reservation, $status, $nbr_places)){
+            header("location: clientAuth.php");
+            exit();
+        }    
+=======
         $client = new Client($_SESSION['user_id'], null, null, null);
         if ($client->addReservation($id_activite, $date_reservation, $status, $nbr_places)) {
             echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
@@ -48,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_reservation'])) {
             });
         </script>';
         exit();
+>>>>>>> main
     }
 }
 ?>

@@ -1,9 +1,44 @@
 <?php
 
+<<<<<<< HEAD
+<?php
+require_once '../classes/Client.php';
+session_start();
+
+if (!isset($_SESSION['user_id']) || (isset($_SESSION['role_id']) && $_SESSION['role_id'] !== 3)) {
+  header("Location: ../index.php");
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_reservation'])) {
+    if (isset($_POST['id_activite'], $_POST['nbr_places'], $_POST['date_reservation']) && is_numeric($_POST['id_activite']) && is_numeric($_POST['nbr_places'])) {
+        $id_activite = $_POST['id_activite'];
+        $nbr_places = $_POST['nbr_places'];
+        $date_reservation = $_POST['date_reservation'];  
+        $status = 'En_attente';  
+
+        $client = new Client($_SESSION['user_id'], null, null, null);
+        if ($client->addReservation($id_activite, $date_reservation, $status, $nbr_places)) {
+            header("Location: ./clientAuth.php?success=1");
+            exit();
+        } else {
+            header("Location: ./clientAuth.php?error=1");
+            exit();
+        }
+    } else {
+        header("Location: ./clientAuth.php?warning=1");
+        exit();
+    }
+}
+
+// Fetch offers
+$client = new Client("", "", "");
+$offers = $client->viewOffers();
+?>
+=======
 session_start();
 if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['user_id'] !==3)) {
   header("Location: ../index.php");
 }
+>>>>>>> main
 
 ?>
 <!DOCTYPE html>
@@ -16,6 +51,39 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: red;
+        }
+    
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -120,7 +188,11 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
                             <p class="text-gray-600"> <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['name_client']) . '</span></p>
                             <p class="text-gray-600"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['date_reservation']) . '</span></p>
                             <p class="text-gray-600"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['nbr_places']) . '</span></p>
+<<<<<<< HEAD
+                            <p class="text-gray-600"> <span class="text-black font-bold">' . htmlspecialchars($offer['status']) . '</span></p>
+=======
                             <p class="text-gray-600"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['status']) . '</span></p>
+>>>>>>> main
                             <form action="canceledRes.php" method="POST">
                                 <input type="hidden" name="id_res" value="' . htmlspecialchars($offer['id_reservation']) . '">
                                 <button type="submit" name="cancel_reservation" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
@@ -158,6 +230,11 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
                             <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['description']) . '</span></p>
                              <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['destination']) . '</span></p>
                             <p class="text-gray-600 mb-4">À partir de <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['price']) . '€</span></p>
+<<<<<<< HEAD
+                          <button type="button" onclick="openModal(' . htmlspecialchars($offer['id_activite']) . ')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600">
+                                Réservez Maintenant ->
+                            </button>
+=======
                           <form id="reservationForm" action="Add_res.php" method="POST" style="display:none;">
                               <input type="hidden" name="id_activite" value="' . htmlspecialchars($offer['id_activite']) . '">
                               <input type="hidden" name="status" value="En_attente">
@@ -165,6 +242,7 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
                           <button type="button" onclick="showReservationPopup(' . htmlspecialchars($offer['id_activite']) . ')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600">
                               Réservez Maintenant ->
                           </button>
+>>>>>>> main
                         </div>
                     </div>
                     ';
@@ -176,6 +254,28 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
       </div>
     </div>
   </section>
+<<<<<<< HEAD
+
+  <div id="reservationModal" class="modal  px-4 py-2">
+        <div class="modal-content " >
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Réserver une activité</h2>
+            <form id="reservationForm"  action="Add_res.php" method="POST">
+                <input type="hidden" name="id_activite" id="modal_id_activite">
+                <label for="nbr_places">Nombre de places:</label>
+                <input type="number" name="nbr_places" id="nbr_places" class="border-2 bg-gray-200 rounded" required> 
+                <label for="date_reservation">Date de réservation:</label>
+                <input type="date" name="date_reservation" id="date_reservation" class="border-2 bg-gray-200 rounded" required>
+                <button type="submit" name="add_reservation" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                    Confirmer
+                </button>
+            </form>
+        </div>
+    </div>
+
+    
+=======
+>>>>>>> main
   <footer class="bg-gray-800 text-gray-300 py-10">
     <div class="container mx-auto px-6 lg:px-16">
       <div class="flex flex-col md:flex-row justify-between items-center">
@@ -210,6 +310,43 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
     profileButton.addEventListener('click', () => {
       profileModal.classList.remove('hidden');
     });
+<<<<<<< HEAD
+
+    profileButtonMobile.addEventListener('click', () => {
+      profileModal.classList.remove('hidden');
+    });
+
+    closeModalButton.addEventListener('click', () => {
+      profileModal.classList.add('hidden');
+    });
+
+    document.getElementById('profileForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      console.log('Profile updated');
+      profileModal.classList.add('hidden');
+    });
+    
+  //model pour add reservation 
+    const modal = document.getElementById('reservationModal');
+        const modalInput = document.getElementById('modal_id_activite');
+
+        function openModal(id) {
+            modal.style.display = 'block';
+            modalInput.value = id;
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+</script>
+
+=======
 
     profileButtonMobile.addEventListener('click', () => {
       profileModal.classList.remove('hidden');
@@ -255,6 +392,7 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
     }
 </script>
 
+>>>>>>> main
 </body>
 
 </html>

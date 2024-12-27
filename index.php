@@ -1,4 +1,6 @@
-
+<?php
+include './login.php'
+?>
 
 
 <!DOCTYPE html>
@@ -8,6 +10,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VoyagePro - Popup Login/Register</title>
+  <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     ::-webkit-scrollbar {
@@ -35,32 +38,64 @@
     <ul id="navLinks" class="hidden md:flex space-x-6 text-gray-700">
       <li><a href="#home" class="hover:text-blue-500">Accueil</a></li>
       <li><a href="#offers" class="hover:text-blue-500">Offres</a></li>
-      <li><a href="#about" class="hover:text-blue-500">À propos</a></li>
       <li><a href="#notre-public-cible" class="hover:text-blue-500">Notre Public</a></li>
     </ul>
+    
     <div class="hidden md:flex space-x-4">
-      <button id="openLogin" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-        Connexion
-      </button>
-      <button id="openRegister" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-        Inscription
-      </button>
+    <?php 
+    session_start();  
+
+    if(!isset($_SESSION['user_id'])) {
+        ?>
+        <button class="p-2 bg-gray-200 rounded" id="openLogin">Connexion</button>
+        <button class="p-2 bg-green-500 rounded" id="openRegister">Inscription</button>
+        <?php 
+    } else { 
+        ?>
+        <div class="b-flex justify-content-end">
+            <span><?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Utilisateur'; ?></span>
+            <form action="logout.php" method="POST">
+            <button id="logoutButtonMobile" type="submit" name="submit"
+              class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+              Déconnexion
+            </button>
+        </form>
+        </div>
+        <?php 
+    }
+?>
+
     </div>
   </nav>
   <div id="mobileMenu" class="hidden bg-white shadow-md">
     <ul class="flex flex-col space-y-2 py-4 px-6 text-gray-700">
       <li><a href="#home" class="hover:text-blue-500">Accueil</a></li>
       <li><a href="#offers" class="hover:text-blue-500">Offres</a></li>
-      <li><a href="#about" class="hover:text-blue-500">À propos</a></li>
       <li><a href="#notre-public-cible" class="hover:text-blue-500">Notre Public</a></li>
     </ul>
     <div class="space-y-2 px-6">
-      <button id="openLoginMobile" class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-        Connexion
-      </button>
-      <button id="openRegisterMobile" class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-        Inscription
-      </button>
+    <?php 
+
+    if(!isset($_SESSION['user_id'])) {
+        ?>
+        <button class="p-2 bg-gray-200 rounded" id="openLogin">Connexion</button>
+        <button class="p-2 bg-green-500 rounded" id="openRegister">Inscription</button>
+        <?php 
+    } else { 
+        ?>
+        <div class="b-flex justify-content-end">
+            <span><?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Utilisateur'; ?></span>
+            <form action="logout.php" method="POST">
+            <button id="logoutButtonMobile" type="submit" name="submit"
+              class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+              Déconnexion
+            </button>
+        </form>
+        </div>
+        <?php 
+    }
+?>
+     
     </div>
   </div>
 </header>
@@ -133,6 +168,17 @@
       ✕
     </button>
     <h2 class="text-3xl font-extrabold text-blue-600 mb-6 text-center">Connexion</h2>
+    <?php if (!empty($error_message)): ?>
+            <div class="mb-4 p-3 text-red-600 bg-red-100 rounded-lg">
+                <?= htmlspecialchars($error_message) ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($success_message)): ?>
+            <div class="mb-4 p-3 text-green-600 bg-green-100 rounded-lg">
+                <?= htmlspecialchars($success_message) ?>
+            </div>
+        <?php endif; ?>
     <form Action="login.php" method="POST">
       <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Adresse Email</label>
@@ -227,17 +273,17 @@
       <h2 class="text-3xl font-bold text-blue-600 mb-6">Pourquoi Choisir VoyagePro ?</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="icon" class="mx-auto mb-4">
+          <img src="./assets/offre-speciale.png" alt="icon" class="mx-auto mb-4 w-20">
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Offres Exclusives</h3>
           <p class="text-gray-600">Bénéficiez de promotions uniques pour les meilleures destinations.</p>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="icon" class="mx-auto mb-4">
+          <img src="./assets/ouvrir.png" alt="icon" class="mx-auto mb-4 w-20">
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Support 24/7</h3>
           <p class="text-gray-600">Notre équipe est disponible à tout moment pour répondre à vos besoins.</p>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
-          <img src="https://via.placeholder.com/100" alt="icon" class="mx-auto mb-4">
+          <img src="./assets/la-flexibilite.png" alt="icon" class="mx-auto mb-4 w-20">
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Flexibilité Maximale</h3>
           <p class="text-gray-600">Réservez selon vos préférences avec des options flexibles.</p>
         </div>
@@ -252,21 +298,21 @@
     </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
-        <img src="https://via.placeholder.com/100" alt="Solo Travelers" class="mx-auto mb-4">
+        <img src="./assets/fb-voyager.jpg" alt="Solo Travelers" class="mx-auto mb-4">
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Voyageurs Solitaires</h3>
         <p class="text-gray-600">
           Idéal pour ceux qui recherchent la liberté et l'exploration en solo.
         </p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
-        <img src="https://via.placeholder.com/100" alt="Couples" class="mx-auto mb-4">
+        <img src="./assets/couple.webp" alt="Couples" class="mx-auto mb-4">
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Couples</h3>
         <p class="text-gray-600">
           Des escapades romantiques conçues pour créer des souvenirs à deux.
         </p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
-        <img src="https://via.placeholder.com/100" alt="Corporate Travelers" class="mx-auto mb-4">
+        <img src="./assets/68.jpg" alt="Corporate Travelers" class="mx-auto mb-4">
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Voyageurs d'Affaires</h3>
         <p class="text-gray-600">
           Simplifiez vos déplacements professionnels grâce à nos offres adaptées.
@@ -351,7 +397,6 @@
     mobileMenu.classList.toggle('hidden');
   });
 </script>
-
 </body>
 
 </html>
