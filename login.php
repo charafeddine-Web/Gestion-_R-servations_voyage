@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
     if (isset($_POST['email'], $_POST['password'])) {
         $email = trim($_POST['email']);
         $password = $_POST['password'];
-<<<<<<< HEAD
         $user = User::login($email, $password);
         if ($user) {
             $success_message = "Connexion réussie !";
@@ -22,13 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
     } else {
         header("location: index.php");
         $error_message[] = "Veuillez remplir tous les champs.";
-=======
-        User::login($email, $password);
-       
-    } else {
-        echo "Veuillez remplir tous les champs.";
-        header("Location: index.php");
->>>>>>> main
     }
     
 }

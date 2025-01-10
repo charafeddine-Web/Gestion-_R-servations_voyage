@@ -1,7 +1,6 @@
 <?php
 
-<<<<<<< HEAD
-<?php
+
 require_once '../classes/Client.php';
 session_start();
 
@@ -15,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_reservation'])) {
         $date_reservation = $_POST['date_reservation'];  
         $status = 'En_attente';  
 
-        $client = new Client($_SESSION['user_id'], null, null, null);
+        $client = new Client($_SESSION['user_id'], null, null,null);
         if ($client->addReservation($id_activite, $date_reservation, $status, $nbr_places)) {
             header("Location: ./clientAuth.php?success=1");
             exit();
@@ -30,17 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_reservation'])) {
 }
 
 // Fetch offers
-$client = new Client("", "", "");
+$client = new Client("", "", "","");
 $offers = $client->viewOffers();
 ?>
-=======
-session_start();
-if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['user_id'] !==3)) {
-  header("Location: ../index.php");
-}
->>>>>>> main
 
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -188,11 +181,7 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
                             <p class="text-gray-600"> <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['name_client']) . '</span></p>
                             <p class="text-gray-600"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['date_reservation']) . '</span></p>
                             <p class="text-gray-600"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['nbr_places']) . '</span></p>
-<<<<<<< HEAD
                             <p class="text-gray-600"> <span class="text-black font-bold">' . htmlspecialchars($offer['status']) . '</span></p>
-=======
-                            <p class="text-gray-600"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['status']) . '</span></p>
->>>>>>> main
                             <form action="canceledRes.php" method="POST">
                                 <input type="hidden" name="id_res" value="' . htmlspecialchars($offer['id_reservation']) . '">
                                 <button type="submit" name="cancel_reservation" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
@@ -219,7 +208,7 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <?php
         require_once '../classes/Client.php';
-        $client = new Client("", "", "");
+        $client = new Client("", "", "","");
         $offers = $client->viewOffers();
         if (!empty($offers)) {
           foreach ($offers as $offer) {
@@ -230,19 +219,9 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
                             <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['description']) . '</span></p>
                              <p class="text-gray-600 mb-4"> <span class="text-yellow-500 font-extrabold">' . htmlspecialchars($offer['destination']) . '</span></p>
                             <p class="text-gray-600 mb-4">À partir de <span class="text-yellow-500 font-bold">' . htmlspecialchars($offer['price']) . '€</span></p>
-<<<<<<< HEAD
                           <button type="button" onclick="openModal(' . htmlspecialchars($offer['id_activite']) . ')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600">
                                 Réservez Maintenant ->
                             </button>
-=======
-                          <form id="reservationForm" action="Add_res.php" method="POST" style="display:none;">
-                              <input type="hidden" name="id_activite" value="' . htmlspecialchars($offer['id_activite']) . '">
-                              <input type="hidden" name="status" value="En_attente">
-                          </form>
-                          <button type="button" onclick="showReservationPopup(' . htmlspecialchars($offer['id_activite']) . ')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600">
-                              Réservez Maintenant ->
-                          </button>
->>>>>>> main
                         </div>
                     </div>
                     ';
@@ -254,7 +233,6 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
       </div>
     </div>
   </section>
-<<<<<<< HEAD
 
   <div id="reservationModal" class="modal  px-4 py-2">
         <div class="modal-content " >
@@ -274,8 +252,6 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
     </div>
 
     
-=======
->>>>>>> main
   <footer class="bg-gray-800 text-gray-300 py-10">
     <div class="container mx-auto px-6 lg:px-16">
       <div class="flex flex-col md:flex-row justify-between items-center">
@@ -310,7 +286,6 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
     profileButton.addEventListener('click', () => {
       profileModal.classList.remove('hidden');
     });
-<<<<<<< HEAD
 
     profileButtonMobile.addEventListener('click', () => {
       profileModal.classList.remove('hidden');
@@ -346,53 +321,6 @@ if (!isset($_SESSION['user_id']) ||(isset($_SESSION['user_id']) && $_SESSION['us
         };
 </script>
 
-=======
-
-    profileButtonMobile.addEventListener('click', () => {
-      profileModal.classList.remove('hidden');
-    });
-
-    closeModalButton.addEventListener('click', () => {
-      profileModal.classList.add('hidden');
-    });
-
-    document.getElementById('profileForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      console.log('Profile updated');
-      profileModal.classList.add('hidden');
-    });
-  </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function showReservationPopup(idActivite) {
-        Swal.fire({
-            title: 'Réservation',
-            html: `
-                <input type="number" id="nbr_places" name="nbr_places" class="swal2-input" placeholder="Nombre de places" min="1" required>
-                <input type="datetime-local" id="date_reservation" name="" class="swal2-input" required>
-            `,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonText: 'Réserver',
-            cancelButtonText: 'Annuler',
-            preConfirm: () => {
-                const nbr_places = document.getElementById('nbr_places').value;
-                const date_reservation = document.getElementById('date_reservation').value;
-                if (!nbr_places || !date_reservation) {
-                    Swal.showValidationMessage('Veuillez remplir tous les champs');
-                } else {
-                    document.getElementById('reservationForm').submit();
-                }
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('reservationForm').submit();
-            }
-        });
-    }
-</script>
-
->>>>>>> main
 </body>
 
 </html>

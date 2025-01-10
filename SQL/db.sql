@@ -44,11 +44,11 @@ INSERT INTO roles (nomRole) VALUES ('client');
 
 -- Insert users
 INSERT INTO users (name, email, password, idRole) 
-VALUES ('Ali Benomar', 'ali.benomar@gmail.com', 'password123', 2);
+VALUES ('Ali Benomar', 'ali.benomar@gmail.com', '00000000', 2);
 INSERT INTO users (name, email, password, idRole) 
-VALUES ('Fatima Zohra', 'fatima.zohra@gmail.com', 'mypassword456', 3);
+VALUES ('Fatima Zohra', 'fatima.zohra@gmail.com', '12345', 3);
 INSERT INTO users (name, email, password, idRole) 
-VALUES ('Omar El Mansouri', 'omar.mansouri@gmail.com', 'securepass789', 3);
+VALUES ('Omar El Mansouri', 'omar.mansouri@gmail.com', '012345', 3);
 
 -- Insert activities 
 INSERT INTO activites (name, description, destination, price, start_date, end_date) 
