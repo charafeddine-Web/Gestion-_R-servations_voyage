@@ -133,7 +133,7 @@ include './login.php'
             <?php
             require_once './classes/Client.php';
 
-            $client = new Client("", "", "");
+            $client = new Client("", "", "","");
             $offers = $client->viewOffers();
 
             if (!empty($offers)) {

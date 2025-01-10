@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             return;
         }
 
-        $client = new Client($name, $email, $hashpassword);
+        $client = new Client(null,$name, $email, $hashpassword);
 
         if ($client->register()) {
             session_start();
